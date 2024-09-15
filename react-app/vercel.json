@@ -1,9 +1,8 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "destination": "https://54.242.61.198:8080/$1"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://54.242.61.198:8080/$1"
+    }
+  ]
+}
