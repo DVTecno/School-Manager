@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      },
+      {
+        "src": "/reset_password",
+        "dest": "/path/to/reset_password_view"
+      }
+    ],
+    "crons": [
+      {
+        "path": "/api/cron",
+        "schedule": "0 10 * * *"
+      }
+    ]
+  }
+  
