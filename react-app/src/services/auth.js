@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const auth = axios.create({
-  baseURL: 'https://54.242.61.198:8080/auth', // URL base del backend
+  baseURL: 'https://choolmanager1.onrender.com/auth', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },

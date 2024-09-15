@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const adminService = axios.create({
-  baseURL: 'https://54.242.61.198:8080/admin/', // URL base del backend
+  baseURL: 'https://choolmanager1.onrender.com/admin/', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
