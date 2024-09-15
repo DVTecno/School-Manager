@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const reset = axios.create({
-  baseURL: 'https://34.203.199.235:8080/api', // URL base del backend
+  baseURL: 'http://34.203.199.235:8080/api', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },

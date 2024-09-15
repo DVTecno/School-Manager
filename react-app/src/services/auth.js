@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const auth = axios.create({
-  baseURL: 'https://34.203.199.235:8080/auth', // URL base del backend
+  baseURL: 'http://34.203.199.235:8080/auth', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
