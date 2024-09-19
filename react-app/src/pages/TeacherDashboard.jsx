@@ -25,7 +25,7 @@ import btnRendimiento from "../assets/tu_rendimiento.webp";
 import btnMensajes from "../assets/tus_mensajes.webp";
 import "./Dashboard.css";
 import RegisterEvaluations from "./teacher/RegisterEvaluations";
-import SendNotifications from "./teacher/sendNotifications";
+import SendNotifications from "./teacher/SendNotifications.jsx";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
