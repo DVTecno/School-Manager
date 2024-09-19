@@ -21,7 +21,7 @@ import btnRendimiento from "../assets/tu_rendimiento.webp";
 import btnMensajes from "../assets/tus_mensajes.webp";
 import ViewEvaluations from "./student/ViewEvaluations.jsx";
 import "./Dashboard.css";
-import ViewNotifications from "./student/ViewNotifications";
+import ViewNotifications from "./student/ViewNotifications.jsx";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
