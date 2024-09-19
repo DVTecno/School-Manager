@@ -47,7 +47,7 @@ const RegisterStudent = () => {
         name: data.firstName,
         lastName: data.lastName,
         dni: data.dni,
-        phoneNumber: data.phone,
+        phoneNumber: data.phoneNumber,
         email: data.email,
         address,
         dateOfBirth: data.dateOfBirth,
@@ -55,8 +55,10 @@ const RegisterStudent = () => {
         emergencyNumber: data.emergencyContactPhone,
         medicalInformation,
         session: data.session,
-        registrationNumber: data.registrationNumber,
+        year: data.year,
       };
+      // Muestra el Objeto que se envia
+      // console.log(data);
 
       const response = await registerStudent(finalData);
       const generatedPassword = response?.password || "123456"; // Reemplaza con lógica real si es necesario
@@ -113,9 +115,13 @@ const RegisterStudent = () => {
                 <Input
                   id="firstName"
                   type="text"
-                  placeholder="Ej: Julio Armando"
+                  placeholder=""
                   {...register("firstName", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 2,
+                      message: "El nombre debe tener al menos 2 caracteres",
+                    },
                   })}
                 />
                 {errors.firstName && (
@@ -129,9 +135,13 @@ const RegisterStudent = () => {
                 <Input
                   id="lastName"
                   type="text"
-                  placeholder="Ej: Salvador"
+                  placeholder=""
                   {...register("lastName", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 2,
+                      message: "El apellido debe tener al menos 2 caracteres",
+                    },
                   })}
                 />
                 {errors.lastName && (
@@ -162,9 +172,13 @@ const RegisterStudent = () => {
                 <Input
                   id="dni"
                   type="text"
-                  placeholder="Ej: 45872875"
+                  placeholder=""
                   {...register("dni", {
                     required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[0-9]{8}$/,
+                      message: "El DNI debe tener exactamente 8 dígitos",
+                    },
                   })}
                 />
                 {errors.dni && (
@@ -178,7 +192,7 @@ const RegisterStudent = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Ej: Student@gmail.com"
+                  placeholder=""
                   {...register("email", {
                     required: "Este campo es obligatorio",
                   })}
@@ -189,18 +203,28 @@ const RegisterStudent = () => {
               </FormControl>
             </GridItem>
             <GridItem>
-              <FormControl isInvalid={errors.phone} isRequired>
+              <FormControl isInvalid={errors.phoneNumber} isRequired>
                 <FormLabel htmlFor="phoneNumber">Celular:</FormLabel>
                 <Input
                   id="phoneNumber"
                   type="tel"
-                  placeholder="Ej: 1154327854"
+                  placeholder="Ejemplo 1154327854"
                   {...register("phoneNumber", {
                     required: "Este campo es obligatorio",
+                    maxLength: {
+                      value: 10,
+                      message:
+                        "El número de teléfono no puede tener más de 10 dígitos",
+                    },
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message:
+                        "El número de teléfono debe tener exactamente 10 dígitos",
+                    },
                   })}
                 />
-                {errors.phone && (
-                  <Text color="red.500">{errors.phone.message}</Text>
+                {errors.phoneNumber && (
+                  <Text color="red.500">{errors.phoneNumber.message}</Text>
                 )}
               </FormControl>
             </GridItem>
@@ -222,6 +246,10 @@ const RegisterStudent = () => {
                   placeholder="Ej: Av. Corrientes 1234, Piso 2, Dpto A"
                   {...register("addressStreet", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 5,
+                      message: "La calle debe tener al menos 5 caracteres",
+                    },
                   })}
                 />
                 {errors.addressStreet && (
@@ -235,9 +263,13 @@ const RegisterStudent = () => {
                 <Input
                   id="addressCity"
                   type="text"
-                  placeholder="Ej: Ciudad Autónoma de Buenos Aires"
+                  placeholder=""
                   {...register("addressCity", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 3,
+                      message: "La ciudad debe tener al menos 3 caracteres",
+                    },
                   })}
                 />
                 {errors.addressCity && (
@@ -251,9 +283,13 @@ const RegisterStudent = () => {
                 <Input
                   id="addressProvince"
                   type="text"
-                  placeholder="Ej: Buenos Aires"
+                  placeholder=""
                   {...register("addressProvince", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 3,
+                      message: "La provincia debe tener al menos 3 caracteres",
+                    },
                   })}
                 />
                 {errors.addressProvince && (
@@ -267,9 +303,13 @@ const RegisterStudent = () => {
                 <Input
                   id="addressZipcode"
                   type="text"
-                  placeholder="Ej: C1043AAE"
+                  placeholder=""
                   {...register("addressZipcode", {
                     required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[A-Z0-9]{4,7}$/,
+                      message: "El código postal no es válido",
+                    },
                   })}
                 />
                 {errors.addressZipcode && (
@@ -286,23 +326,7 @@ const RegisterStudent = () => {
               </Heading>
               <Divider mb={4} sx={{ borderBottom: "2px solid #E67E22" }} />
             </GridItem>
-            <GridItem>
-              <FormControl isInvalid={errors.registrationNumber} isRequired>
-                <FormLabel htmlFor="registrationNumber">
-                  Número de Matrícula:
-                </FormLabel>
-                <Input
-                  id="registrationNumber"
-                  type="text"
-                  placeholder="Ingrese el número de matrícula"
-                />
-                {errors.registrationNumber && (
-                  <Text color="red.500">
-                    {errors.registrationNumber.message}
-                  </Text>
-                )}
-              </FormControl>
-            </GridItem>
+
             <GridItem>
               <FormControl isInvalid={errors.session} isRequired>
                 <FormLabel htmlFor="session">Turno:</FormLabel>
@@ -322,6 +346,20 @@ const RegisterStudent = () => {
               </FormControl>
             </GridItem>
 
+            <GridItem>
+              <FormControl isInvalid={errors.year} isRequired>
+                <FormLabel htmlFor="year">Año:</FormLabel>
+                <Select id="year" {...register("year")}>
+                  <option value="">Selecciona el año</option>
+                  <option value="1">1º</option>
+                  <option value="2">2º</option>
+                  <option value="3">3º</option>
+                  <option value="4">4º</option>
+                  <option value="5">5º</option>
+                </Select>
+              </FormControl>
+            </GridItem>
+
             {/* Información de Contacto de Emergencia */}
             <GridItem colSpan={2}>
               <Divider my={4} />
@@ -338,9 +376,14 @@ const RegisterStudent = () => {
                 <Input
                   id="emergencyContactName"
                   type="text"
-                  placeholder="Ej: Juan Carlos Salvador"
+                  placeholder=""
                   {...register("emergencyContactName", {
                     required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 3,
+                      message:
+                        "El nombre del contacto debe tener al menos 3 caracteres",
+                    },
                   })}
                 />
                 {errors.emergencyContactName && (
@@ -352,15 +395,25 @@ const RegisterStudent = () => {
             </GridItem>
             <GridItem>
               <FormControl isInvalid={errors.emergencyContactPhone} isRequired>
-                <FormLabel htmlFor="emergencyNumber">
-                  Teléfono del Contacto:
+                <FormLabel htmlFor="emergencyContactPhone">
+                  Celular (emergencias):
                 </FormLabel>
                 <Input
-                  id="emergencyNumber"
+                  id="emergencyContactPhone"
                   type="tel"
-                  placeholder="Ej: 1163238756"
-                  {...register("emergencyNumber", {
+                  placeholder="Ejemplo 1154327854"
+                  {...register("emergencyContactPhone", {
                     required: "Este campo es obligatorio",
+                    maxLength: {
+                      value: 10,
+                      message:
+                        "El número de teléfono no puede tener más de 10 dígitos",
+                    },
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message:
+                        "El número de teléfono debe tener exactamente 10 dígitos",
+                    },
                   })}
                 />
                 {errors.emergencyContactPhone && (
@@ -385,7 +438,7 @@ const RegisterStudent = () => {
                 <Input
                   id="bloodType"
                   type="text"
-                  placeholder="Ej: O+, A-, B+, AB-"
+                  placeholder="Ingresa el grupo y factor sanguíneo."
                   {...register("bloodType", {
                     required: "Este campo es obligatorio",
                   })}
@@ -401,7 +454,7 @@ const RegisterStudent = () => {
                 <Input
                   id="allergies"
                   type="text"
-                  placeholder="Ej: Polvo, Polen, Mariscos"
+                  placeholder="Ingresa las alergias separadas por comas."
                   {...register("allergies")}
                 />
                 {errors.allergies && (
@@ -417,7 +470,7 @@ const RegisterStudent = () => {
                 <Input
                   id="additionalConditions"
                   type="text"
-                  placeholder="Ej: Ninguna"
+                  placeholder="Ingresa todos los datos relevantes."
                   {...register("additionalConditions")}
                 />
                 {errors.additionalConditions && (

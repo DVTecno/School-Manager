@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const reset = axios.create({
-  baseURL: 'https://choolmanager.onrender.com/evaluations/api', // URL base del backend
+  baseURL: 'http://localhost:8080/api', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },

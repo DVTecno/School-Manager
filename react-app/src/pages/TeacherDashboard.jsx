@@ -25,6 +25,7 @@ import btnRendimiento from "../assets/tu_rendimiento.webp";
 import btnMensajes from "../assets/tus_mensajes.webp";
 import "./Dashboard.css";
 import RegisterEvaluations from "./teacher/RegisterEvaluations";
+import SendNotifications from "./teacher/sendNotifications";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
@@ -111,6 +112,14 @@ const TeacherDashboard = () => {
               className="option-img"
             />
           </a>
+          {/* Agregar el onClick={btnNotifications} */}
+          <a href="#" >
+            <Image
+              src={btnMensajes} //Cambiar por Nueva Imagen
+              alt="Mensajes y Notificaciones"
+              className="option-img"
+            />
+          </a>
         </div>
 
         {/* Modal de Historial Académico */}
@@ -191,10 +200,7 @@ const TeacherDashboard = () => {
             <ModalHeader color="white">Mensajes</ModalHeader>
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Mensajes */}
-              <Text mb={4}>
-                Aquí puedes revisar y enviar mensajes a estudiantes y otros
-                profesores.
-              </Text>
+              <SendNotifications />
               {/* Aquí puedes incluir el componente o el contenido específico */}
             </ModalBody>
             <ModalFooter>
