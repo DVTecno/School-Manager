@@ -27,7 +27,7 @@ const TeacherDashboard = () => {
   const [name, setName] = useState("");
   const [dniStudent, setDniStudent] = useState("12345678"); // Ejemplo de valor predeterminado o inicial
   const navigate = useNavigate();
-  const isMobile = useBreakpointValue({ base: true, md: false });
+
 
   const {
     isOpen: isHistorialOpen,
