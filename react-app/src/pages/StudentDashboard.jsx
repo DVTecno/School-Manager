@@ -19,9 +19,9 @@ import logo from "../assets/logoDonorinoSchoolBlack.webp";
 import btnHistorial from "../assets/tu_historial_academico.webp";
 import btnRendimiento from "../assets/tu_rendimiento.webp";
 import btnMensajes from "../assets/tus_mensajes.webp";
-import ViewEvaluations from "./student/ViewEvaluations.jsx";
+import ViewEvaluations from "../student/ViewEvaluations";
 import "./Dashboard.css";
-import ViewNotifications from "./student/ViewNotifications.jsx";
+import ViewNotifications from "../student/ViewNotifications";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
