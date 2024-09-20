@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Box,
   Button,
   Container,
+  Flex,
+  Heading,
   Image,
   Text,
   useBreakpointValue,
@@ -19,17 +22,16 @@ import logo from "../assets/logoDonorinoSchoolBlack.webp";
 import btnHistorial from "../assets/tu_historial_academico.webp";
 import btnRendimiento from "../assets/tu_rendimiento.webp";
 import btnMensajes from "../assets/tus_mensajes.webp";
-
+import ViewNotifications from "./student/ViewNotifications";
 import "./Dashboard.css";
-import ViewEvaluations from "./student/ViewEvaluations.jsx";
-import ViewNotifications from "./student/ViewNotifications.jsx";
-
+import AcademicRecord from "./student/ViewAcademicRecord";
+import ViewEvaluationsByStudent from "./student/ViewEvaluationsByStudent";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
   const [dniStudent, setDniStudent] = useState("12345678"); // Ejemplo de valor predeterminado o inicial
   const navigate = useNavigate();
-
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const {
     isOpen: isHistorialOpen,
@@ -65,7 +67,9 @@ const TeacherDashboard = () => {
       style={{
         backgroundColor: "#34495E", // Fondo de la página
         minHeight: "100vh", // Asegura que el fondo cubra toda la altura de la vista
-        padding: "20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Container
@@ -73,6 +77,7 @@ const TeacherDashboard = () => {
         maxW="container.lg"
         className="dashboard-container"
         centerContent
+        style={{ marginTop: "0", paddingTop: "0" }}
       >
         <header className="header-container">
           <div className="logo-container">
@@ -127,12 +132,9 @@ const TeacherDashboard = () => {
             flexDirection="column"
           >
             <ModalCloseButton />
-            <ModalHeader color="white">Historial Académico</ModalHeader>
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Historial Académico */}
-              <Text mb={4}>
-                Aquí puedes consultar el historial académico de tus estudiantes.
-              </Text>
+              <AcademicRecord />
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="orange" onClick={onHistorialClose}>
@@ -162,7 +164,7 @@ const TeacherDashboard = () => {
             <ModalCloseButton />
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Rendimiento */}
-              <ViewEvaluations />
+              <ViewEvaluationsByStudent />
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="orange" onClick={onRendimientoClose}>
@@ -186,7 +188,6 @@ const TeacherDashboard = () => {
             flexDirection="column"
           >
             <ModalCloseButton />
-            <ModalHeader color="white">Mensajes</ModalHeader>
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Mensajes */}
               <ViewNotifications />

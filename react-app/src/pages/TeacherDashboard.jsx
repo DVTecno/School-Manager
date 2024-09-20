@@ -20,12 +20,14 @@ import {
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logoDonorinoSchoolBlack.webp";
-import btnHistorial from "../assets/tu_historial_academico.webp";
-import btnRendimiento from "../assets/tu_rendimiento.webp";
-import btnMensajes from "../assets/tus_mensajes.webp";
+import btnHistorial from "../assets/historial_academico.webp";
+import btnRendimiento from "../assets/rendimiento.webp";
+import btnEnviar from "../assets/enviar_notificaciones.webp";
+import btnRecibir from "../assets/recibir_notificaciones.webp";
 import "./Dashboard.css";
+import AcademicRecord from "./teacher/AcademicRecord";
 import RegisterEvaluations from "./teacher/RegisterEvaluations";
-import SendNotifications from "./teacher/SendNotifications.jsx";
+import SendNotifications from "./teacher/SendNotifications";
 
 const TeacherDashboard = () => {
   const [name, setName] = useState("");
@@ -66,14 +68,16 @@ const TeacherDashboard = () => {
       style={{
         backgroundColor: "#34495E", // Fondo de la página
         minHeight: "100vh", // Asegura que el fondo cubra toda la altura de la vista
-        padding: "20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Container
         bg="#f4f4f4"
         maxW="container.lg"
         className="dashboard-container"
-        centerContent
+        style={{ marginTop: "0", paddingTop: "0" }}
       >
         <header className="header-container">
           <div className="logo-container">
@@ -107,16 +111,16 @@ const TeacherDashboard = () => {
           </a>
           <a href="#" onClick={onMensajesOpen}>
             <Image
-              src={btnMensajes}
-              alt="Mensajes y Notificaciones"
+              src={btnEnviar}
+              alt="Enviar Notificaciones"
               className="option-img"
             />
           </a>
-          {/* Agregar el onClick={btnNotifications} */}
-          <a href="#" >
+          {/* Agregar evento OnClick */}
+          <a href="#">
             <Image
-              src={btnMensajes} //Cambiar por Nueva Imagen
-              alt="Mensajes y Notificaciones"
+              src={btnRecibir}
+              alt="Recibir Notificaciones"
               className="option-img"
             />
           </a>
@@ -136,12 +140,9 @@ const TeacherDashboard = () => {
             flexDirection="column"
           >
             <ModalCloseButton />
-            <ModalHeader color="white">Historial Académico</ModalHeader>
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Historial Académico */}
-              <Text mb={4}>
-                Aquí puedes consultar el historial académico de tus estudiantes.
-              </Text>
+              <AcademicRecord />
               {/* Aquí puedes incluir el componente o el contenido específico */}
             </ModalBody>
             <ModalFooter>
@@ -172,7 +173,7 @@ const TeacherDashboard = () => {
             <ModalCloseButton />
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Rendimiento */}
-              <RegisterEvaluations/>
+              <RegisterEvaluations />
               {/* Aquí puedes incluir el componente o el contenido específico */}
             </ModalBody>
             <ModalFooter>
@@ -197,7 +198,6 @@ const TeacherDashboard = () => {
             flexDirection="column"
           >
             <ModalCloseButton />
-            <ModalHeader color="white">Mensajes</ModalHeader>
             <ModalBody overflowY="auto">
               {/* Contenido del modal de Mensajes */}
               <SendNotifications />

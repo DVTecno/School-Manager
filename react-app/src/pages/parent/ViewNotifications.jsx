@@ -15,7 +15,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { getNotificationsForStudent } from "../../services/notificationService"; // Asegúrate de tener esta función
+import { getNotificationsForParent } from "../../services/notificationService"; // Asegúrate de tener esta función
 
 const ViewNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -40,7 +40,7 @@ const ViewNotifications = () => {
       }
 
       try {
-        const data = await getNotificationsForStudent(dni);
+        const data = await getNotificationsForParent(dni);
         setNotifications(data); // Suponemos que `data` ya contiene `subject` y `sentAt`
       } catch (error) {
         console.error(error);

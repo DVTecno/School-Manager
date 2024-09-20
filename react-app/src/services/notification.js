@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const notification = axios.create({
-  baseURL: 'choolmanager-production.up.railway.app/notifications', // URL base del backend
+  baseURL: 'http://localhost:8080/notifications', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },

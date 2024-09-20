@@ -15,8 +15,9 @@ import {
   sendNotificationToAll,
   sendNotificationToStudent,
   sendNotificationToParent,
-} from "../../services/notificationService"; // Asegúrate de importar correctamente tu servicio
-import { verifyChildByDni } from "../../services/adminService"; // Servicio para buscar por DNI
+} from "../../services/notificationService";
+import { verifyChildByDni } from "../../services/adminService";
+import { getStudentAndParentByDni } from "../../services/notificationService"; // Importar desde teacherService
 import { useNavigate } from "react-router-dom";
 
 const SendNotifications = () => {
@@ -24,8 +25,10 @@ const SendNotifications = () => {
   const [session, setSession] = useState("");
   const [sendTo, setSendTo] = useState("");
   const [dni, setDni] = useState("");
-  const [fullName, setFullName] = useState(""); // Estado para el nombre completo
+  const [fullName, setFullName] = useState("");
+  const [parentFullName, setParentFullName] = useState("");
   const [message, setMessage] = useState("");
+  const [subject, setSubject] = useState("");
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
@@ -37,38 +40,66 @@ const SendNotifications = () => {
     const value = e.target.value;
     setSendTo(value);
     if (value === "student" || value === "parent") {
-      setDni(""); // Reiniciar el DNI
-      setFullName(""); // Limpiar el nombre completo
+      setDni("");
+      setFullName("");
+      setParentFullName("");
     }
   };
 
   const handleDniChange = (e) => setDni(e.target.value);
 
   const searchDni = async () => {
-    if (dni) {
+    if (dni.length === 8) {
       try {
-        const studentData = await verifyChildByDni(dni);
+        let studentData;
+
+        if (sendTo === "student") {
+          // Busca al estudiante
+          studentData = await verifyChildByDni(dni);
+        } else if (sendTo === "parent") {
+          // Busca al estudiante y padre
+          studentData = await getStudentAndParentByDni(dni);
+        }
+
         if (studentData) {
-          const name = `${studentData.firstName || ""} ${
+          const nameStudent = `${studentData.firstName || ""} ${
             studentData.lastName || ""
           }`.trim();
-          setFullName(name); // Establecer el nombre completo
+          setFullName(nameStudent);
+          if (sendTo === "parent") {
+            setParentFullName(
+              `${studentData.parentName || ""} ${
+                studentData.parentLastName || ""
+              }`.trim()
+            );
+          }
+          setYear(studentData.year);
+          setSession(studentData.session);
         } else {
-          setFullName(""); // Limpiar si no se encuentra el estudiante
+          setFullName("");
+          setParentFullName("");
+          setYear("");
+          setSession("");
         }
       } catch (error) {
         console.error(error);
         toast({
           title: "Error",
-          description: "No se pudo obtener la información del estudiante.",
+          description: "No se pudo obtener la información.",
           status: "error",
           duration: 5000,
           isClosable: true,
         });
-        setFullName(""); // Limpiar en caso de error
+        setFullName("");
+        setParentFullName("");
+        setYear("");
+        setSession("");
       }
     } else {
-      setFullName(""); // Limpiar si no hay DNI
+      setFullName("");
+      setParentFullName("");
+      setYear("");
+      setSession("");
     }
   };
 
@@ -76,42 +107,43 @@ const SendNotifications = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Validar que todos los campos requeridos estén completos
-      if (!year || !session || !sendTo || !message) {
+      if (!year || !session || !sendTo || !message || !subject) {
         throw new Error("Por favor, completa todos los campos.");
       }
 
       let payload;
 
-      // Crea el payload según el grupo destinatario
       if (sendTo === "all") {
         payload = {
           year,
           session,
-          targetGroup: "course", // Agregar el targetGroup
+          targetGroup: "course",
+          subject,
           message,
         };
-        console.log("Enviando notificación a todos:", payload); // Log de la data
         await sendNotificationToAll(payload);
       } else if (sendTo === "student") {
+        if (!dni)
+          throw new Error("DNI es requerido para enviar a un estudiante.");
         payload = {
           year,
           session,
           dni,
           targetGroup: "student",
+          subject,
           message,
         };
-        console.log("Enviando notificación al estudiante:", payload); // Log de la data
         await sendNotificationToStudent(payload);
       } else if (sendTo === "parent") {
+        if (!dni) throw new Error("DNI es requerido para enviar a un padre.");
         payload = {
           year,
           session,
           dni,
           targetGroup: "parent",
+          subject,
           message,
         };
-        console.log("Enviando notificación al padre:", payload); // Log de la data
         await sendNotificationToParent(payload);
       }
 
@@ -123,13 +155,15 @@ const SendNotifications = () => {
         isClosable: true,
       });
 
-      // Limpiar estados
+      // Resetear campos
       setYear("");
       setSession("");
       setSendTo("");
       setDni("");
       setFullName("");
+      setParentFullName("");
       setMessage("");
+      setSubject("");
     } catch (error) {
       toast({
         title: "Error",
@@ -160,13 +194,18 @@ const SendNotifications = () => {
           <Box mb={6}>
             <FormControl mb={4}>
               <FormLabel color="#34495E">Año:</FormLabel>
-              <Select id="year" value={year} onChange={handleYearChange}>
+              <Select
+                id="year"
+                value={year}
+                onChange={handleYearChange}
+                isReadOnly
+              >
                 <option value="">Seleccionar año</option>
-                <option value="1º">1º</option>
-                <option value="2º">2º</option>
-                <option value="3º">3º</option>
-                <option value="4º">4º</option>
-                <option value="5º">5º</option>
+                <option value="1">1º</option>
+                <option value="2">2º</option>
+                <option value="3">3º</option>
+                <option value="4">4º</option>
+                <option value="5">5º</option>
               </Select>
             </FormControl>
 
@@ -176,6 +215,7 @@ const SendNotifications = () => {
                 id="session"
                 value={session}
                 onChange={handleSessionChange}
+                isReadOnly
               >
                 <option value="">Seleccionar turno</option>
                 <option value="Mañana">Mañana</option>
@@ -218,12 +258,25 @@ const SendNotifications = () => {
                     <strong>Nombre del estudiante:</strong> {fullName}
                   </p>
                 )}
+                {parentFullName && (
+                  <p>
+                    <strong>Nombre del padre:</strong> {parentFullName}
+                  </p>
+                )}
               </Box>
             </Box>
           )}
 
           {sendTo && (
             <Box mb={6}>
+              <FormControl mb={4}>
+                <FormLabel color="#34495E">Asunto</FormLabel>
+                <Input
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Ingrese el asunto"
+                />
+              </FormControl>
               <FormControl mb={4}>
                 <Textarea
                   rows={4}

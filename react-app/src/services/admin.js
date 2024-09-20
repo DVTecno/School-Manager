@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const adminService = axios.create({
-  baseURL: 'choolmanager-production.up.railway.app/admin/', // URL base del backend
+  baseURL: 'http://localhost:8080/admin/', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
