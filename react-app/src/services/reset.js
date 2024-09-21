@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const reset = axios.create({
-  baseURL: 'http://localhost:8080/api',  // URL base del backend
+  baseURL: 'https://choolmanager-production.up.railway.app/api',  // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
