@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const auth = axios.create({
-  baseURL: import.meta.env.VITE_API_URL + "/auth", // URL base del backend
+  baseURL: 'http://localhost:8080/auth',  // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
