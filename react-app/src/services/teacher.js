@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const teacherService = axios.create({
-  baseURL: "https://choolmanager-production.up.railway.app/evaluations", // URL base del backend
+  baseURL: import.meta.env.VITE_API_URL + "/evaluations", // URL base del backend
   headers: {
     "Content-Type": "application/json",
   },

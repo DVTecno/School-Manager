@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const notification = axios.create({
-  baseURL: 'https://choolmanager-production.up.railway.app/notifications', // URL base del backend
+  baseURL: import.meta.env.VITE_API_URL + "/notifications", // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
