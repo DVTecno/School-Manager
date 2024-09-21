@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const teacherService = axios.create({
-  baseURL: "http://localhost:8080/evaluations", // URL base del backend
+  baseURL: "https://choolmanager-production.up.railway.app/evaluations", // URL base del backend
   headers: {
     "Content-Type": "application/json",
   },
