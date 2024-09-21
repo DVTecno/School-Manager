@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const auth = axios.create({
-  baseURL: 'https://choolmanager-production.up.railway.app/auth',  // URL base del backend
+  baseURL: 'https://choolmanager-production.up.railway.app/auth', // URL base del backend
   headers: {
     'Content-Type': 'application/json',
   },
